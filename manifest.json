@@ -3,7 +3,7 @@
   "version": "0.1",
   "manifest_version": 2,
   "description": "Get access to the latest news from IGN",
-  "background": { "scripts": ["background.js"] },
+  "background": { "scripts": ["background.html"] },
   "browser_action": {
     "default_icon": "images/icon.ico",
     "default_title": "IGN Reader",
