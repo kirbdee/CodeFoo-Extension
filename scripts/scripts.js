@@ -4,14 +4,9 @@ var IGNENDPOINTS = {
 	video:"http://video-api.ign.com/v3/videos/search?format=js&callback=?&variable=var&q="
 };
 
-var sampleMeta = '{"matchRule":"matchAll","count":25,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"},{"field":"categoryLocales","condition":"contains","value":"us"},{"field":"tags","condition":"containsOne","value":"vita,ps3"}]}';
+var sampleMeta = '{"matchRule":"matchAll","count":10,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"},{"field":"categoryLocales","condition":"contains","value":"us"},{"field":"tags","condition":"containsOne","value":"vita,ps3"}]}';
 var encodedMeta = encodeURI(sampleMeta);
 var articlesUrl = IGNENDPOINTS.articles+encodedMeta;
-
-$.getJSON(articlesUrl,
-	function(data){
-		$('#wrapper').append(data.count);
-	});
 
 $(document).ready(
 	function(){
@@ -30,13 +25,16 @@ function buildList(){
 			data = response.data;
 			for (i = 0; i < data.length; i++)
 			{
-				full = split(data.metadata.publishDate,"T");
-				headline = data.metadata.headline;
-				date = split(date,"-");
+				item = data[i];
+				full = (item.metadata.publishDate).split("T");
+				headline = item.metadata.headline;
+				slug = item.metadata.slug;
+				date = full[0].split("-");
 				year = date[0];
 				month = date[1];
 				day = date[2];
-				$('#listView ul').append('<li><a target="_blank" href="http://www.ign.com/articles/'+'">'+headline+'</a></li>');
+				articleUrl = 'http://www.ign.com/articles/'+year+'/'+month+'/'+day+'/'+slug;
+				$('#listView ul').append('<li><a target="_blank" href="'+articleUrl+'">'+headline+'</a></li>');
 				console.log(data[i]);
 			}
 		});
