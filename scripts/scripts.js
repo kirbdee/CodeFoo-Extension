@@ -47,11 +47,14 @@ function buildList(){
 						day = date[2];
 						articleUrl = 'http://www.ign.com/articles/'+year+'/'+month+'/'+day+'/'+slug;
 						$('#listView ul').append('<li><a target="_blank" href="'+articleUrl+'">'+headline+'</a></li>');
-						console.log(data[i]);
+						//console.log(data[i]);
 						//console.log(new Date(data[i].metadata.publishDate).getTime());
 						// GET IMAGES
 					}else{
-						
+						console.log(data[i]);
+						videoUrl = data[i].metadata.url;
+						title = data[i].metadata.title;
+						$('#listView ul').append('<li><a target="_blank" href="'+videoUrl+'">'+title+'</a></li>');
 					}
 				}
 			});
