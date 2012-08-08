@@ -12,10 +12,10 @@
 
 	window.setInterval(function() {
   		
-  		checkLatestHeaders(compareHeaders);
+  		checkLatestData(compareData);
 	}, 5000);
 
-	function checkLatestHeaders(callback) {
+	function checkLatestData(callback) {
 		var header;
 		var articlesUrl = localStorage['articlesUrl'];
 		var geturl;
@@ -28,11 +28,11 @@
 			}
 		});
 	}
-	
+
 	var firstRun = 0;
 	if (firstRun === 0){localStorage['badgeCount']=0;firstRun=1;}
 
-	function compareHeaders(latestHeader){
+	function compareData(latestHeader){
 		latestHeaderDate = latestHeader.slice(6,31);
 		if(latestHeaderDate != localStorage['latestHeaderDate']){
 			alert(latestHeaderDate+"\n"+localStorage['latestHeaderDate']);
