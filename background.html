@@ -13,36 +13,46 @@
 	window.setInterval(function() {
   		
   		checkLatestData(compareData);
-	}, 5000);
+	}, 10000);
 
 	function checkLatestData(callback) {
-		var header;
+		var pubDate = [];
+		var videosUrl = localStorage['videosUrl'];
 		var articlesUrl = localStorage['articlesUrl'];
-		var geturl;
-	  	geturl = $.ajax({
-	    type: "GET",
-	    url: articlesUrl,
-	    success: function () {
-	    	header = geturl.getAllResponseHeaders();
-	    	callback.call(null, header);
-			}
-		});
+		var videoArray;
+		var articleArray;
+		$.getJSON(videosUrl,
+			function(response){
+				videoArray = response.data[0];
+				var vidPubDate = videoArray.metadata.publishDate;
+				pubDate['video'] = vidPubDate;
+			$.getJSON(articlesUrl,
+				function(response){
+					articleArray = response.data[0];
+					var artPubDate = articleArray.metadata.publishDate;
+					pubDate['article'] = artPubDate;
+					callback.call(null, pubDate);
+				});
+			});
 	}
 
 	var firstRun = 0;
 	if (firstRun === 0){localStorage['badgeCount']=0;firstRun=1;}
 
-	function compareData(latestHeader){
-		latestHeaderDate = latestHeader.slice(6,31);
-		if(latestHeaderDate != localStorage['latestHeaderDate']){
-			alert(latestHeaderDate+"\n"+localStorage['latestHeaderDate']);
-			var badgeCount = localStorage['badgeCount'];
-			localStorage['latestHeaderDate'] = latestHeaderDate;
-			badgeCount++;
-			localStorage['badgeCount'] = badgeCount;
+	function compareData(latestPubDate){
+		var vidPubDate = latestPubDate['video'];
+		var artPubDate = latestPubDate['article'];
+		if(vidPubDate != localStorage['lastVidPubDate'] ||
+			artPubDate != localStorage['lastArtPubDate'])
+		{
+				var badgeCount = localStorage['badgeCount'];
+				localStorage['lastVidPubDate'] = vidPubDate;
+				localStorage['lastArtPubDate'] = artPubDate;
+				badgeCount++;
+				localStorage['badgeCount'] = badgeCount;
 
-			chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
-			chrome.browserAction.setBadgeText({text:String(badgeCount)});
+				chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+				chrome.browserAction.setBadgeText({text:String(badgeCount)});
 
 		}
 	}

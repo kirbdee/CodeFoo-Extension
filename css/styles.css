@@ -41,10 +41,14 @@ h1{
 	height: 77px;
 	color: red;
 }
-
+#listView ul li#shuffle,#listView ul li#loadmore{
+	padding: 0px;
+}
 #listView ul li#shuffle a,#listView ul li#loadmore a{
-	height: 20px ;
-	padding-right: 0px;
+	height: 30px ;
+	padding: 10px 0px 0px 0px;
+	background: url('http://oystatic.ignimgs.com/src/ignmediamobile/img/default/heroBG.png');
+	vertical-align: middle;
 	text-align: center;
 }
 #dummy{ 
