@@ -1,24 +1,17 @@
 <html>
 <head>
 	<script src='scripts/jquery-1.6.1.min.js'></script>	
-	<script>
-		function fetch_feed() {
-			console.log('fetch feed called');
-			// TODO CHANGE URL
-			chrome.extension.sendRequest({'action' : 'fetch_feed', 'url' : 'http://feeds.gawker.com/lifehacker/full'}, 
-				function(response) {
-					//CALL FUNCTION TO CREATE HTML
-					display_stories(response);
-				}
-			);
-		}
-	</script>
 </head>
 <body>
+	<div id="wrapper">
+		<h1>IGN</h1>
+	</div>
 	<script>
 		$(document).ready(function() {
+			chrome.browserAction.setBadgeText({text:String('')});
 			fetch_feed();
 		});
+
 	</script>
 </body>
 </html>

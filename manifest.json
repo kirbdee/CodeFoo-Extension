@@ -1,7 +1,6 @@
 {
   "name": "IGN Reader",
   "version": "0.1",
-  "manifest_version": 2,
   "description": "Get access to the latest news from IGN",
   "background": { "page": "background.html" },
   "browser_action": {
