@@ -4,11 +4,11 @@ var IGNENDPOINTS = {
 	video:"http://video-api.ign.com/v3/videos/search?format=js&callback=?&variable=var&q="
 };
 
-var sampleMeta = '{"matchRule":"matchAll","count":10,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"},{"field":"categoryLocales","condition":"contains","value":"us"},{"field":"tags","condition":"containsOne","value":"vita,ps3"}]}';
+var sampleMeta = '{"matchRule":"matchAll","count":5,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"},{"field":"categoryLocales","condition":"contains","value":"us"},{"field":"tags","condition":"containsOne","value":"vita,ps3"}]}';
 var encodedMeta = encodeURI(sampleMeta);
 var articlesUrl = IGNENDPOINTS.articles+encodedMeta;
 
-var videoMeta = '{"matchRule":"matchAny","count":25,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"tags","condition":"containsOne","value":"xbox-360"},{"field":"tags","condition":"containsOne","value":"ps3"}]}';
+var videoMeta = '{"matchRule":"matchAny","count":5,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"tags","condition":"containsOne","value":"xbox-360"},{"field":"tags","condition":"containsOne","value":"ps3"}]}';
 var encodedVidMeta = encodeURI(videoMeta);
 var videosUrl = IGNENDPOINTS.video+encodedVidMeta;
 
