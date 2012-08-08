@@ -1,12 +1,84 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
-	chrome.tabs.executeScript(
-	null, {code:"document.body.style.background='red !important'"});
-	});
+var IGNENDPOINTS = {
+	articles:"http://apis.ign.com/article/v3/articles/search?format=js&callback=?&variable=var&q=",
+	images:"http://apis.ign.com/image/v3/images/search?format=js&callback=?&variable=var&q=",
+	video:"http://video-api.ign.com/v3/videos/search?format=js&callback=?&variable=var&q="
+};
 
-	chrome.browserAction.setBadgeBackgroundColor({color:[0, 200, 0, 100]});
+var sampleMeta = '{"matchRule":"matchAll","count":10,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"}';
+var encodedMeta = encodeURI(sampleMeta);
+var articlesUrl = IGNENDPOINTS.articles+encodedMeta;
 
-	var i = 0;
-	window.setInterval(function() {
-  		chrome.browserAction.setBadgeText({text:String(i)});
-  		i=i+100;
-	}, 1000);
+var videoMeta = '{"matchRule":"matchAny","count":25,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[';
+var encodedVidMeta = encodeURI(videoMeta);
+var videosUrl = IGNENDPOINTS.video+encodedVidMeta;
+
+$(document).ready(
+	function(){
+		//chrome.browserAction.setBadgeText({text:String('')});
+
+		for(var key in localStorage){
+			if(localStorage[key] == 1){
+				sampleMeta+=',{"field":"tags","condition":"containsOne","value":"'+key+'"}';
+				videoMeta+='{"field":"tags","condition":"containsOne","value":"'+key+'"},';
+			}
+		}
+		sampleMeta+=']}';
+		videoMeta=videoMeta.substring(0,videoMeta.length-1)+']}';
+
+		console.log(sampleMeta);
+		console.log(videoMeta);
+
+		// GET OPTIONS
+		// BUILD LIST
+		$(document).blur();
+		buildList();
+});
+
+function buildList(){
+
+	// GET VIDEOS
+	var videoArray;
+	$.getJSON(videosUrl,
+		function(response){
+			videoArray = response.data;
+			$.getJSON(articlesUrl,
+			function(response){
+				data = response.data;
+				data = data.concat(videoArray);
+				sortByPubDate(data);
+				for (i = 0; i < data.length; i++)
+				{
+					if(data[i].articleId){
+						item = data[i];
+						full = (item.metadata.publishDate).split("T");
+						headline = item.metadata.headline;
+						slug = item.metadata.slug;
+						date = full[0].split("-");
+						year = date[0];
+						month = date[1];
+						day = date[2];
+						articleUrl = 'http://www.ign.com/articles/'+year+'/'+month+'/'+day+'/'+slug;
+						$('#listView ul').append('<li><a target="_blank" href="'+articleUrl+'">'+headline+'</a></li>');
+						//console.log(data[i]);
+						//console.log(new Date(data[i].metadata.publishDate).getTime());
+						// GET IMAGES
+					}else{
+						console.log(data[i]);
+						videoUrl = data[i].metadata.url;
+						title = data[i].metadata.title;
+						$('#listView ul').append('<li><a target="_blank" href="'+videoUrl+'">'+title+'</a></li>');
+					}
+				}
+			});
+		});
+	// GET ARTICLES
+	
+
+	function sortByPubDate(arr){
+		var sortFunction = function sortfunction(a, b){
+			return (new Date(b.metadata.publishDate).getTime() - new Date(a.metadata.publishDate).getTime());
+		}
+		arr = arr.sort(sortFunction);
+	}
+	
+}
