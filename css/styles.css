@@ -7,7 +7,7 @@ body{
 header{
 	width: 320px;
 	height: 65px;
-	background: url('http://oystatic.ignimgs.com/src/ignmediamobile/img/default/mobile_sprite.png') no-repeat 105px -705px transparent;
+	background: url('http://oystatic.ignimgs.com/src/ignmediamobile/img/default/mobile_sprite.png') no-repeat 105px -705px black;
 }
 h1{
 	display: none;
@@ -17,10 +17,22 @@ h1{
 	width: 320px;
 }
 
-#listView ul{ padding: 0px;}
+#listView ul{ 
+	padding: 0px;
+	margin: 0px;
+}
 
+#listView ul li{
+}
 #listView ul li a{
+	text-decoration: none;
 	display: block;
 	list-style-type: none;
-	height: 75px;
+	height: 77px;
+	color: red;
+}
+
+#dummy{ 
+	position: absolute;
+	left: -1000px;
 }
