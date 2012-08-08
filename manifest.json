@@ -7,5 +7,6 @@
     "default_icon": "images/icon.ico",
     "default_title": "IGN Reader",
     "default_popup": "popup.html"
-  }
+  },
+  "options_page": "options.html"
 }
