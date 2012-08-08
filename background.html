@@ -28,12 +28,16 @@
 			}
 		});
 	}
+	
+	var firstRun = 0;
+	if (firstRun === 0){localStorage['badgeCount']=0;firstRun=1;}
 
-	if(!localStorage['badgeCount']){localStorage['badgeCount']=0;}
 	function compareHeaders(latestHeader){
-		if(latestHeader != localStorage['latestHeader']){
+		latestHeaderDate = latestHeader.slice(6,31);
+		if(latestHeaderDate != localStorage['latestHeaderDate']){
+			alert(latestHeaderDate+"\n"+localStorage['latestHeaderDate']);
 			var badgeCount = localStorage['badgeCount'];
-			localStorage['latestHeader'] = latestHeader;
+			localStorage['latestHeaderDate'] = latestHeaderDate;
 			badgeCount++;
 			localStorage['badgeCount'] = badgeCount;
 
