@@ -12,9 +12,15 @@ var videoMeta = '{"matchRule":"matchAny","count":25,"startIndex":0,"networks":"i
 var encodedVidMeta = encodeURI(videoMeta);
 var videosUrl = IGNENDPOINTS.video+encodedVidMeta;
 
+//Save latest url to localStorage
+localStorage['articlesUrl'] = articlesUrl;
+localStorage['videosUrl'] = videosUrl;
+
 $(document).ready(
 	function(){
-		//chrome.browserAction.setBadgeText({text:String('')});
+		// Clear badge count each time extention is opened
+		localStorage['badgeCount'] = 0;
+		chrome.browserAction.setBadgeText({text:''});
 
 		for(var key in localStorage){
 			if(localStorage[key] == 1){

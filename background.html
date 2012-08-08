@@ -2,18 +2,46 @@
 <head>
 	<script src='scripts/jquery-1.6.1.min.js'></script>
 	<script>
+
 	chrome.browserAction.onClicked.addListener(function(tab) {
 	chrome.tabs.executeScript(
 	null, {code:"document.body.style.background='red !important'"});
 	});
 
-	chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+	
 
-	var i = 0;
 	window.setInterval(function() {
-  		chrome.browserAction.setBadgeText({text:String('+')});
-  		//i=i+100;
+  		
+  		checkLatestHeaders(compareHeaders);
 	}, 5000);
+
+	function checkLatestHeaders(callback) {
+		var header;
+		var articlesUrl = localStorage['articlesUrl'];
+		var geturl;
+	  	geturl = $.ajax({
+	    type: "GET",
+	    url: articlesUrl,
+	    success: function () {
+	    	header = geturl.getAllResponseHeaders();
+	    	callback.call(null, header);
+			}
+		});
+	}
+
+	if(!localStorage['badgeCount']){localStorage['badgeCount']=0;}
+	function compareHeaders(latestHeader){
+		if(latestHeader != localStorage['latestHeader']){
+			var badgeCount = localStorage['badgeCount'];
+			localStorage['latestHeader'] = latestHeader;
+			badgeCount++;
+			localStorage['badgeCount'] = badgeCount;
+
+			chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+			chrome.browserAction.setBadgeText({text:String(badgeCount)});
+
+		}
+	}
 
 	/*
 	TODO:
