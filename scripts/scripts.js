@@ -29,26 +29,41 @@ function buildList(){
 	$.getJSON(videosUrl,
 		function(response){
 			videoArray = response.data;
+			$.getJSON(articlesUrl,
+			function(response){
+				data = response.data;
+				data = data.concat(videoArray);
+				sortByPubDate(data);
+				for (i = 0; i < data.length; i++)
+				{
+					if(data[i].articleId){
+						item = data[i];
+						full = (item.metadata.publishDate).split("T");
+						headline = item.metadata.headline;
+						slug = item.metadata.slug;
+						date = full[0].split("-");
+						year = date[0];
+						month = date[1];
+						day = date[2];
+						articleUrl = 'http://www.ign.com/articles/'+year+'/'+month+'/'+day+'/'+slug;
+						$('#listView ul').append('<li><a target="_blank" href="'+articleUrl+'">'+headline+'</a></li>');
+						console.log(data[i]);
+						//console.log(new Date(data[i].metadata.publishDate).getTime());
+						// GET IMAGES
+					}else{
+						
+					}
+				}
+			});
 		});
 	// GET ARTICLES
-	$.getJSON(articlesUrl,
-		function(response){
-			data = response.data;
-			for (i = 0; i < data.length; i++)
-			{
-				item = data[i];
-				full = (item.metadata.publishDate).split("T");
-				headline = item.metadata.headline;
-				slug = item.metadata.slug;
-				date = full[0].split("-");
-				year = date[0];
-				month = date[1];
-				day = date[2];
-				articleUrl = 'http://www.ign.com/articles/'+year+'/'+month+'/'+day+'/'+slug;
-				$('#listView ul').append('<li><a target="_blank" href="'+articleUrl+'">'+headline+'</a></li>');
-				console.log(data[i]);
-				// GET IMAGES
-			}
-		});
+	
+
+	function sortByPubDate(arr){
+		var sortFunction = function sortfunction(a, b){
+			return (new Date(b.metadata.publishDate).getTime() - new Date(a.metadata.publishDate).getTime());
+		}
+		arr = arr.sort(sortFunction);
+	}
 	
 }
