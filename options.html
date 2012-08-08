@@ -1,8 +1,36 @@
-<!doctype html>
 <html>
-	<head>
-	</head>
-	<body>
-		<h1>OPTIONS</h1>
-	</body>
+<head>
+<script src='scripts/jquery-1.6.1.min.js'></script>
+</head>
+<body>
+	<form>
+		<input 
+		    type="checkbox" name="Xbox360" value="platform" /> Xbox360<br />
+		<input    
+		    type="checkbox" name="Playstation 3" value="platform" /> Playstation 3<br />
+		<input    
+		    type="checkbox" name="Playstation Vita" value="platform" /> Playstation Vita<br />
+		<input    
+		    type="checkbox" name="Wii" value="platform" /> Wii<br />
+		<input    
+		    type="checkbox" name="WiiU" value="platform" /> WiiU<br />
+		<input    
+		    type="checkbox" name="Nintendo 3DS" value="platform" /> Nintendo 3DS<br />
+		<input    
+		    type="checkbox" name="iPhone" value="platform" /> iPhone<br />
+	</form>
+	<script>
+	    $(':checkbox').change(function(){
+	        optionName=this.name; 
+
+	        localStorage[optionName]=1;
+	        console.log($(this).attr("checked")); 
+
+	    })
+	    function setChecks(){
+
+	    }
+	    $('document').ready(setChecks);
+	</script>
+</body>
 </html>
