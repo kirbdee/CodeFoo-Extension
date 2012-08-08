@@ -4,8 +4,10 @@ var IGNENDPOINTS = {
 	video:"http://video-api.ign.com/v3/videos/search?format=js&callback=?&variable=var&q="
 };
 
-var sampleMeta = '{"matchRule":"matchAll","count":5,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"}';
-var videoMeta = '{"matchRule":"matchAny","count":5,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[';
+var startIndex = 0;
+
+var sampleMeta = '"matchRule":"matchAll","count":5,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"metadata.articleType","condition":"is","value":"article"}';
+var videoMeta = '"matchRule":"matchAny","count":5,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[';
 var articlesUrl;
 var videosUrl;
 var imageMeta = '{"matchRule":"matchAll","count":25,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"tags","condition":"containsOne","value":"transformers-mobile"}]}';
@@ -17,7 +19,7 @@ $(document).ready(
 	function(){
 		// Clear badge count each time extention is opened
 		localStorage['badgeCount'] = 0;
-		chrome.browserAction.setBadgeText({text:''});
+		//chrome.browserAction.setBadgeText({text:''});
 		sampleMeta+=',{"field":"tags","condition":"containsOne","value":"';
 		for(var key in localStorage){
 			if(localStorage[key] == 1){
@@ -27,22 +29,23 @@ $(document).ready(
 		}
 		sampleMeta+='"}]}';
 		videoMeta=videoMeta.substring(0,videoMeta.length-1)+']}';
-		var encodedMeta = encodeURI(sampleMeta);
-		articlesUrl = IGNENDPOINTS.articles+encodedMeta;
-		var encodedVidMeta = encodeURI(videoMeta);
-		videosUrl = IGNENDPOINTS.video+encodedVidMeta;
-		var encodedImgMeta = encodeURI(imageMeta);
-		imagesUrl = IGNENDPOINTS.images+encodedImgMeta;
-		console.log(sampleMeta);
-		console.log(videoMeta);
-		console.log(imagesUrl);
+		//console.log(sampleMeta);
+		//console.log(videoMeta);
+		//console.log(imagesUrl);
 		// GET OPTIONS
 		// BUILD LIST
 		buildList();
 });
 
+var index=0;
 function buildList(){
 
+	var encodedMeta = encodeURI('{"startIndex":'+startIndex+','+sampleMeta);
+	articlesUrl = IGNENDPOINTS.articles+encodedMeta;
+	var encodedVidMeta = encodeURI('{"startIndex":'+startIndex+','+videoMeta);
+	videosUrl = IGNENDPOINTS.video+encodedVidMeta;
+	var encodedImgMeta = encodeURI(imageMeta);
+	imagesUrl = IGNENDPOINTS.images+encodedImgMeta;
 	// GET VIDEOS
 	var videoArray;
 	$.getJSON(videosUrl,
@@ -54,9 +57,9 @@ function buildList(){
 			data = response.data;
 			data = data.concat(videoArray);
 			sortByPubDate(data);
+			console.log(data);
 			for (i = 0; i < data.length; i++)
 			{
-				var index = i;
 				if(data[i].articleId){
 					$.getJSON
 					item = data[i];
@@ -72,7 +75,8 @@ function buildList(){
 					}
 					articleUrl = 'http://www.ign.com/articles/'+year+'/'+month+'/'+day+'/'+slug;
 					$('#listView ul').append('<li id="'+index+'"><a target="_blank" href="'+articleUrl+'">'+headline+'</a></li>');
-					$('#'+index).css('background', 'url('+imageUrl+') center right no-repeat black');
+					$('#'+index).css('background', 'url('+imageUrl+') no-repeat black');
+					$('#'+index).css('background-position', '215px 50%');
 					console.log(data[i]);
 				}else{
 					console.log(data[i]);
@@ -80,16 +84,25 @@ function buildList(){
 					title = data[i].metadata.title;
 					imageUrl = data[i].thumbnails[0].url;
 					$('#listView ul').append('<li id="'+index+'"><a target="_blank" href="'+videoUrl+'">'+title+'</a></li>');
-					$('#'+index).css('background', 'url('+imageUrl+')center right no-repeat black');
+					$('#'+index).css('background', 'url('+imageUrl+') no-repeat black');
 					$('#'+index).css('background-size', '136px 77px');
+					$('#'+index).css('background-position', '215px 50%');
 				}
 				console.log(new Date(data[i].metadata.publishDate).getTime());
+				index++;
 				}
-			$('#listView ul').append('<li id="loadmore"><a href="javascript:void();">Load More</a></li>');
+			$('#listView ul').append('<li id="loadmore"><a id="loadmorelink" href="#">Load More</a></li>');
+			$('#loadmorelink').click(function(e){
+				e.preventDefault();
+				console.log('test');
+				$('#loadmore').remove();
+				buildList();
+			});
+			startIndex+=10;
 		});
 
 	// GET ARTICLES
-	
+
 
 	function sortByPubDate(arr){
 		var sortFunction = function sortfunction(a, b){

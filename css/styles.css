@@ -37,12 +37,14 @@ h1{
 	text-decoration: none;
 	display: block;
 	list-style-type: none;
+	padding-right: 151px;
 	height: 77px;
 	color: red;
 }
 
 #listView ul li#shuffle a,#listView ul li#loadmore a{
 	height: 20px ;
+	padding-right: 0px;
 	text-align: center;
 }
 #dummy{ 
