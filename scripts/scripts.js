@@ -16,6 +16,7 @@ $(document).ready(
 		// Clear badge count each time extention is opened
 		localStorage['badgeCount'] = 0;
 		chrome.browserAction.setBadgeText({text:''});
+
 		sampleMeta+=',{"field":"tags","condition":"containsOne","value":"';
 		for(var key in localStorage){
 			if(localStorage[key] == 1){
@@ -57,6 +58,7 @@ function buildList(){
 			data = response.data;
 			data = data.concat(videoArray);
 			sortByPubDate(data);
+			console.log(data);
 			for (i = 0; i < data.length; i++)
 			{
 				var index = i;
