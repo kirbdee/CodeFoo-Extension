@@ -9,9 +9,15 @@ var videoMeta = '{"matchRule":"matchAny","count":5,"startIndex":0,"networks":"ig
 var articlesUrl;
 var videosUrl;
 var imageMeta = '{"matchRule":"matchAll","count":25,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"tags","condition":"containsOne","value":"transformers-mobile"}]}';
+//Save latest url to localStorage
+localStorage['articlesUrl'] = articlesUrl;
+localStorage['videosUrl'] = videosUrl;
+
 $(document).ready(
 	function(){
-		//chrome.browserAction.setBadgeText({text:String('')});
+		// Clear badge count each time extention is opened
+		localStorage['badgeCount'] = 0;
+		chrome.browserAction.setBadgeText({text:''});
 
 		for(var key in localStorage){
 			if(localStorage[key] == 1){
@@ -79,6 +85,7 @@ function buildList(){
 				}
 				console.log(new Date(data[i].metadata.publishDate).getTime());
 				}
+			$('#listView ul').append('<li id="loadmore"><a href="javascript:void();">Load More</a></li>');
 		});
 
 	// GET ARTICLES
