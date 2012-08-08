@@ -5,31 +5,43 @@
 <body>
 	<form>
 		<input 
-		    type="checkbox" name="Xbox360" value="platform" /> Xbox360<br />
+		    type="checkbox" name="Xbox360" value="platform" checked  /> Xbox360<br />
 		<input    
-		    type="checkbox" name="Playstation 3" value="platform" /> Playstation 3<br />
+		    type="checkbox" name="Playstation 3" value="platform" checked /> Playstation 3<br />
 		<input    
-		    type="checkbox" name="Playstation Vita" value="platform" /> Playstation Vita<br />
+		    type="checkbox" name="Playstation Vita" value="platform" checked /> Playstation Vita<br />
 		<input    
-		    type="checkbox" name="Wii" value="platform" /> Wii<br />
+		    type="checkbox" name="Wii" value="platform" checked /> Wii<br />
 		<input    
-		    type="checkbox" name="WiiU" value="platform" /> WiiU<br />
+		    type="checkbox" name="WiiU" value="platform" checked /> WiiU<br />
 		<input    
-		    type="checkbox" name="Nintendo 3DS" value="platform" /> Nintendo 3DS<br />
+		    type="checkbox" name="Nintendo 3DS" value="platform" checked /> Nintendo 3DS<br />
 		<input    
-		    type="checkbox" name="iPhone" value="platform" /> iPhone<br />
+		    type="checkbox" name="iPhone" value="platform" checked /> iPhone<br />
 	</form>
 	<script>
 	    $(':checkbox').change(function(){
-	        optionName=this.name; 
-
-	        localStorage[optionName]=1;
-	        console.log($(this).attr("checked")); 
-
+	    	$(':checkbox').each(writeLocal);
 	    })
-	    function setChecks(){
+
+	    function writeLocal() {
+	    	optionName = $(this).attr("name"); 
+	        localStorage[optionName] = ($(this).attr("checked") == "checked") ? 1 : 0;
+
 
 	    }
+	    function setChecks(){
+	    	if(!localStorage['firstLoadComplete']){$(':checkbox').each(writeLocal); localStorage['firstLoadComplete'] = true;}
+	   		$(':checkbox').each(checkForChecks);
+	    }
+
+	    function checkForChecks(){
+	    	name = $(this).attr("name");
+	    	if(localStorage[name]==0){
+	    		$(this).attr("checked", false);
+	    	}
+	    }
+
 	    $('document').ready(setChecks);
 	</script>
 </body>
