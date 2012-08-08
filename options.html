@@ -1,23 +1,58 @@
 <html>
 <head>
 <script src='scripts/jquery-1.6.1.min.js'></script>
+<style type="text/css">
+	body {
+		background-image: url("images/logo-large-watermark.png");
+		background-repeat: no-repeat;
+		background-position: center;
+
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	form {
+		position: absolute;
+		left: 23%;
+		top: 50%;
+	}
+	input{
+		margin-left: 8px;
+	}
+	#topbar {
+		background-color: black;
+		color: #ddd;
+	}
+	#topbar h1 {
+		padding: 5px 25px;
+	}
+	label{
+		position: relative;
+		bottom: 50px;
+		font-size: 20px;
+	}
+</style>
 </head>
 <body>
+	<div id="topbar">
+		<h1>IGN Reader Options</h1>
+	</div>
 	<form>
-		<input 
-		    type="checkbox" name="xbox-360" value="platform" checked  /> Xbox360<br />
+		<label>Click to select/deselect catagories to appear in IGN Reader:</label><br />
+		<input id="xbox"
+		    type="checkbox" name="xbox-360" value="platform" checked  /> Xbox360
 		<input    
-		    type="checkbox" name="ps3" value="platform" checked /> Playstation 3<br />
+		    type="checkbox" name="ps3" value="platform" checked /> Playstation 3
 		<input    
-		    type="checkbox" name="vita" value="platform" checked /> Playstation Vita<br />
+		    type="checkbox" name="vita" value="platform" checked /> Playstation Vita
 		<input    
-		    type="checkbox" name="wii" value="platform" checked /> Wii<br />
+		    type="checkbox" name="wii" value="platform" checked /> Wii
 		<input    
-		    type="checkbox" name="wii-u" value="platform" checked /> WiiU<br />
+		    type="checkbox" name="wii-u" value="platform" checked /> WiiU
 		<input    
-		    type="checkbox" name="3ds" value="platform" checked /> Nintendo 3DS<br />
+		    type="checkbox" name="3ds" value="platform" checked /> Nintendo 3DS
 		<input    
-		    type="checkbox" name="iphone" value="platform" checked /> iPhone<br />
+		    type="checkbox" name="iphone" value="platform" checked /> iPhone
 	</form>
 	<script>
 	    $(':checkbox').change(function(){

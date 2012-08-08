@@ -55,6 +55,7 @@ function buildList(){
 	$.getJSON(videosUrl,
 		function(response){
 			videoArray = response.data;
+
 		$.getJSON(articlesUrl,
 			function(response){
 				data = response.data;
