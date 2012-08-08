@@ -2,12 +2,17 @@ html{ margin-top: -21px;}
 body{
 	margin: 0px;
 }
-#wrapper{ width: 320px;}
+
+h1,li,a,p {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: bold;
+}
+#wrapper{ width: 360px;}
 
 header{
-	width: 320px;
+	width: 360px;
 	height: 65px;
-	background: url('http://oystatic.ignimgs.com/src/ignmediamobile/img/default/mobile_sprite.png') no-repeat 105px -705px black;
+	background: url('http://oystatic.ignimgs.com/src/ignmediamobile/img/default/mobile_sprite.png') no-repeat 125px -705px black;
 }
 h1{
 	display: none;
@@ -15,7 +20,7 @@ h1{
 
 #listView{
 	display: block;
-	width: 320px;
+	width: 360px;
 }
 
 #listView ul{ 
@@ -25,7 +30,7 @@ h1{
 
 #listView ul li{
 	border-bottom: 1px solid grey;
-	padding: 5px;
+	padding: 10px;
 }
 
 #listView ul li a{

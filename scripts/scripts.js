@@ -18,14 +18,14 @@ $(document).ready(
 		// Clear badge count each time extention is opened
 		localStorage['badgeCount'] = 0;
 		chrome.browserAction.setBadgeText({text:''});
-
+		sampleMeta+=',{"field":"tags","condition":"containsOne","value":"';
 		for(var key in localStorage){
 			if(localStorage[key] == 1){
-				sampleMeta+=',{"field":"tags","condition":"containsOne","value":"'+key+'"}';
+				sampleMeta+=key+',';//',{"field":"tags","condition":"containsOne","value":"'+key+'"}';
 				videoMeta+='{"field":"tags","condition":"containsOne","value":"'+key+'"},';
 			}
 		}
-		sampleMeta+=']}';
+		sampleMeta+='"}]}';
 		videoMeta=videoMeta.substring(0,videoMeta.length-1)+']}';
 		var encodedMeta = encodeURI(sampleMeta);
 		articlesUrl = IGNENDPOINTS.articles+encodedMeta;
