@@ -9,9 +9,7 @@ var videoMeta = '{"matchRule":"matchAny","count":5,"startIndex":0,"networks":"ig
 var articlesUrl;
 var videosUrl;
 var imageMeta = '{"matchRule":"matchAll","count":25,"startIndex":0,"networks":"ign","states":"published","sortBy":"metadata.publishDate","sortOrder":"desc","rules":[{"field":"tags","condition":"containsOne","value":"transformers-mobile"}]}';
-//Save latest url to localStorage
-localStorage['articlesUrl'] = articlesUrl;
-localStorage['videosUrl'] = videosUrl;
+
 
 $(document).ready(
 	function(){
@@ -31,6 +29,11 @@ $(document).ready(
 		articlesUrl = IGNENDPOINTS.articles+encodedMeta;
 		var encodedVidMeta = encodeURI(videoMeta);
 		videosUrl = IGNENDPOINTS.video+encodedVidMeta;
+		
+		//Save latest url to localStorage
+		localStorage['articlesUrl'] = articlesUrl;
+		localStorage['videosUrl'] = videosUrl;
+		
 		var encodedImgMeta = encodeURI(imageMeta);
 		imagesUrl = IGNENDPOINTS.images+encodedImgMeta;
 		console.log(sampleMeta);
